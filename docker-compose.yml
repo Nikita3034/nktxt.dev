@@ -1,0 +1,24 @@
+services:
+  nginx:
+    restart: unless-stopped
+    container_name: nktx_nginx
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf:cached
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:cached
+      - .:/var/www:cached
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge
