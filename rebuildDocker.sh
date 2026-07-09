@@ -1,5 +1,4 @@
 #!/bin/bash
-export $(grep -v '^#' .env | xargs)
-docker compose -f docker-compose.${APP_ENV}.yml stop
-docker compose -f docker-compose.${APP_ENV}.yml build
-docker compose -f docker-compose.${APP_ENV}.yml up --build -d
+docker compose -f docker-compose.yml stop
+docker compose -f docker-compose.yml build
+docker compose -f docker-compose.yml up --build -d
