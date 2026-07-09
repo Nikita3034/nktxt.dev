@@ -6,13 +6,8 @@ LOG="${CERTBOT_LOG:-/var/log/certbot-nktx-cron.log}"
 
 cd "$ROOT_DIR"
 
-echo "===== $(date) START =====" >> "$LOG"
-
-docker compose run --rm certbot certbot renew \
+docker compose exec nginx certbot renew \
   --webroot \
   -w /var/www/certbot \
-  --quiet >> "$LOG" 2>&1
-
-docker compose exec nginx nginx -s reload >> "$LOG" 2>&1
-
-echo "===== $(date) END =====" >> "$LOG"
+  --quiet \
+  --deploy-hook "nginx -s reload" >> "$LOG" 2>&1

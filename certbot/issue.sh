@@ -6,7 +6,7 @@ EMAIL="${CERTBOT_EMAIL:-admin@nktx.dev}"
 
 cd "$ROOT_DIR"
 
-docker compose run --rm certbot certbot certonly \
+docker compose exec nginx certbot certonly \
   --webroot \
   -w /var/www/certbot \
   --cert-name nktx.dev \

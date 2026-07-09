@@ -24,21 +24,6 @@ services:
     networks:
       - default
 
-  certbot:
-    restart: unless-stopped
-    container_name: certbot-nktx.dev
-    build:
-      context: ./certbot
-      dockerfile: Dockerfile
-    depends_on:
-      - nginx
-    pid: "service:nginx"
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    networks:
-      - default
-
 networks:
   default:
     driver: bridge
