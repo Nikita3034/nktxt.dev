@@ -1,25 +1,18 @@
 #!/bin/bash
 set -euo pipefail
 
-CERTBOT_DIR="$(cd "$(dirname "$0")" && pwd)"
-APP_DIR="${APP_DIR:-/var/www/market-detail}"
-LOG="${CERTBOT_LOG:-/var/log/certbot-nktx-cron.log}"
+PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+LOG_FILE="${CERTBOT_RENEW_LOG:-/var/log/certbot-nktx-renew.log}"
 
-if [ -f "$APP_DIR/.env" ]; then
-  set -a
-  . "$APP_DIR/.env"
-  set +a
-fi
+cd "$PROJECT_DIR"
 
-APP_DIR="${PROJECTS_PATH:-$APP_DIR}"
+echo "===== $(date) START certbot renew =====" >> "$LOG_FILE"
 
-echo "===== $(date) START =====" >> "$LOG"
-
-docker compose -f "$CERTBOT_DIR/docker-compose.yml" run --rm certbot renew \
+docker compose run --rm certbot renew \
   --webroot \
   -w /var/www/certbot \
-  --quiet >> "$LOG" 2>&1
+  --quiet >> "$LOG_FILE" 2>&1
 
-docker compose -f "$APP_DIR/docker-compose.${APP_ENV:-dev}.yml" exec nginx nginx -s reload >> "$LOG" 2>&1
+docker compose exec nginx nginx -s reload >> "$LOG_FILE" 2>&1
 
-echo "===== $(date) END =====" >> "$LOG"
+echo "===== $(date) END certbot renew =====" >> "$LOG_FILE"

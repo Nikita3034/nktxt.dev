@@ -14,4 +14,5 @@ docker compose run --rm certbot certonly \
   --agree-tos \
   --no-eff-email \
   -d nktx.dev \
+  -d www.nktx.dev \
   -d market-detail.nktx.dev
