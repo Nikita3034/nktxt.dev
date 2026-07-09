@@ -1,2 +1,0 @@
-0 */12 * * * /usr/local/bin/certbot-renew >> /var/log/certbot-renew.log 2>&1
-

@@ -1,12 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$(dirname "$0")"
+
 EMAIL="${CERTBOT_EMAIL:-admin@nktx.dev}"
 
-cd "$ROOT_DIR"
-
-docker compose exec nginx certbot certonly \
+docker compose run --rm certbot certonly \
   --webroot \
   -w /var/www/certbot \
   --cert-name nktx.dev \
